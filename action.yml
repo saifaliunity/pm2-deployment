@@ -26,6 +26,9 @@ inputs:
   key:
       description: "Key for SSH"
       required: true
+  local-path:
+      description: "local source path"
+      required: true
 
 runs:
   using: "composite"
@@ -42,7 +45,7 @@ runs:
         PORT: ${{ inputs.port }}
         key: ${{ inputs.key}}
       with:
-        source: "."
+        source: "${{ inputs.local-path }}"
         target: ${{ inputs.remote-path }}
         
     - name: Install project
