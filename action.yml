@@ -46,7 +46,19 @@ runs:
         key: ${{ inputs.key}}
         source: "${{ inputs.local-path }}"
         target: ${{ inputs.remote-path }}
-        
+
+    - name: Setup Path
+      uses: appleboy/ssh-action@v1.2.0 
+      with:
+        HOST: ${{ inputs.host }}
+        USERNAME: ${{ inputs.username }}
+        PORT: ${{ inputs.port }}
+        key: ${{ inputs.key}}
+        script: |
+          if [ -f /home/devops/.exported_path ]; then
+            export PATH=$(cat /home/devops/.exported_path)
+          fi
+          
     - name: Install project
       uses: appleboy/ssh-action@v1.2.0 
       with:
