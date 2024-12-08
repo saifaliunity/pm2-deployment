@@ -8,12 +8,12 @@ steps:
   - uses: actions/checkout@v3
   
   - name: Deploy app
-    uses: victorargento/pm2-deployment@main
+    uses: saifaliunity/pm2-deployment@main
     with:
       remote-path: "/deployment/api"
       host: 12.34.56.78
       username: ${{ secrets.prod-user }}
-      port: 2080
+      port: 22
       password: ${{ secrets.prod-password }}
       pm2-id: "api"
 ```
