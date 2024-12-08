@@ -23,6 +23,9 @@ inputs:
   pm2-id:
       description: "PM2 ID or Name of the process"
       required: true
+  key:
+      description: "Key for SSH"
+      required: true
 
 runs:
   using: "composite"
@@ -37,7 +40,7 @@ runs:
         HOST: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
         PORT: ${{ inputs.port }}
-        key: ${{ SECRETS.PRIVATE_KEY}}
+        key: ${{ inputs.key}}
       with:
         source: "."
         target: ${{ inputs.remote-path }}
@@ -48,7 +51,7 @@ runs:
         HOST: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
         PORT: ${{ inputs.port }}
-        key: ${{ SECRETS.PRIVATE_KEY}}
+        key: ${{ inputs.key}}
         script: cd ${{ inputs.remote-path }} && yarn install
 
     - name: Build your project
@@ -58,7 +61,7 @@ runs:
         HOST: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
         PORT: ${{ inputs.port }}
-        key: ${{ SECRETS.PRIVATE_KEY}}
+        key: ${{ inputs.key}}
         script: cd ${{ inputs.remote-path }} && yarn run build     
        
     - name: Reload remote application
@@ -67,7 +70,7 @@ runs:
         HOST: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
         PORT: ${{ inputs.port }}
-        key: ${{ SECRETS.PRIVATE_KEY}}
+        key: ${{ inputs.key}}
         script: cd ${{ inputs.remote-path }} && pm2 reload ecosystem.config.js
 
     - name: Reset number of restarts
@@ -76,6 +79,6 @@ runs:
         HOST: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
         PORT: ${{ inputs.port }}
-        key: ${{ SECRETS.PRIVATE_KEY}}
+        key: ${{ inputs.key}}
         script: pm2 reset ${{ inputs.pm2-id }}
       
