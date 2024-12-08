@@ -39,12 +39,11 @@ runs:
     
     - name: Copy repository content
       uses: appleboy/scp-action@v0.1.7
-      env:
+      with:
         HOST: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
         PORT: ${{ inputs.port }}
         key: ${{ inputs.key}}
-      with:
         source: "${{ inputs.local-path }}"
         target: ${{ inputs.remote-path }}
         
