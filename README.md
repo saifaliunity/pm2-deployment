@@ -11,11 +11,11 @@ steps:
     uses: saifaliunity/pm2-deployment@main
     with:
       remote-path: "/deployment/api"
-      host: 12.34.56.78
+      host: ${{ secrets.host }}
       username: ${{ secrets.prod-user }}
-      port: 22
       password: ${{ secrets.prod-password }}
       pm2-id: "api"
+      key: ${{ secrets.private_key }}
 ```
 
 ## How does it work?
