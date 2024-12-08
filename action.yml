@@ -17,9 +17,6 @@ inputs:
     description: "SSH port"
     required: false
     default: "22"
-  password:
-    description: "SSH password"
-    required: true
   remote-path:
     description: "Remote path where the files are going to be copied"
     required: true
@@ -40,45 +37,45 @@ runs:
         HOST: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
         PORT: ${{ inputs.port }}
-        PASSWORD: ${{ inputs.password }}
+        key: ${{ SECRETS.PRIVATE_KEY}}
       with:
         source: "."
         target: ${{ inputs.remote-path }}
         
     - name: Install project
-      uses: appleboy/ssh-action@v0.1.4 
+      uses: appleboy/ssh-action@v1.2.0 
       with:
         HOST: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
         PORT: ${{ inputs.port }}
-        PASSWORD: ${{ inputs.password }}
-        script: cd ${{ inputs.remote-path }} && npm ci 
+        key: ${{ SECRETS.PRIVATE_KEY}}
+        script: cd ${{ inputs.remote-path }} && yarn install
 
     - name: Build your project
       if: ${{ inputs.build == true }}
-      uses: appleboy/ssh-action@v0.1.4 
+      uses: appleboy/ssh-action@v1.2.0 
       with:
         HOST: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
         PORT: ${{ inputs.port }}
-        PASSWORD: ${{ inputs.password }}
-        script: cd ${{ inputs.remote-path }} && npm run build     
+        key: ${{ SECRETS.PRIVATE_KEY}}
+        script: cd ${{ inputs.remote-path }} && yarn run build     
        
     - name: Reload remote application
-      uses: appleboy/ssh-action@v0.1.4 
+      uses: appleboy/ssh-action@v1.2.0 
       with:
         HOST: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
         PORT: ${{ inputs.port }}
-        PASSWORD: ${{ inputs.password }}
+        key: ${{ SECRETS.PRIVATE_KEY}}
         script: cd ${{ inputs.remote-path }} && pm2 reload ecosystem.config.js
 
     - name: Reset number of restarts
-      uses: appleboy/ssh-action@v0.1.4 
+      uses: appleboy/ssh-action@v1.2.0 
       with:
         HOST: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
         PORT: ${{ inputs.port }}
-        PASSWORD: ${{ inputs.password }}
+        key: ${{ SECRETS.PRIVATE_KEY}}
         script: pm2 reset ${{ inputs.pm2-id }}
       
