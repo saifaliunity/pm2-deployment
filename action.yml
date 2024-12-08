@@ -1,4 +1,4 @@
-name: 'PM2 Deployment'
+name: 'PM2 Deployment with SSH Key Auth'
 description: 'Deploy your nodejs or typescript app with PM2'
 branding:
   icon: "zap"
